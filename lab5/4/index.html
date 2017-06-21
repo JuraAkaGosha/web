@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>zavd 4</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<div id="container">
+    <ul id="rotator">
+
+    </ul>
+</div>
+<button onclick="right()" id="next">next</button>
+<button onclick="back()" id="back" class="slider_img">back</button>
+<script>
+    var container = document.getElementById('container'), currentElement = 0,
+            nextButton = document.getElementById('next'),
+            prevButton = document.getElementById('back');
+    function back() {
+        var element = document.getElementById('image_' + currentElement);
+        element.setAttribute('class', 'slider_img');
+        currentElement--;
+        element = document.getElementById('image_' + currentElement);
+        element.removeAttribute('class');
+        nextButton.removeAttribute('class');
+        if (currentElement == 0) {
+            prevButton.setAttribute('class', 'slider_img');
+        }
+    }
+    function right() {
+        var element = document.getElementById('image_' + currentElement);
+        element.setAttribute('class', 'slider_img');
+        currentElement++;
+        element = document.getElementById('image_' + currentElement);
+        element.removeAttribute('class');
+        if (currentElement == imagesArray.length - 1) {
+            nextButton.setAttribute('class', 'slider_img');
+        }
+        if (currentElement != 0) {
+            prevButton.removeAttribute('class');
+        }
+    }
+    var imagesArray = [{
+        path: 'images/001.jpg',
+
+        title: 'ЖДТУ, ауд. 108',
+
+        description: 'Викладацька аудиторія'
+    },
+        {
+            path: 'images/002.jpg',
+
+            title: 'ЖДТУ, ауд. 103-а',
+
+            description: 'Лабораторія для студентів'
+        },
+        {
+            path: 'images/003.jpg',
+
+            title: 'ЖДТУ, ауд. 104',
+
+            description: 'Лабораторія для студентів'
+        }];
+    initPhotoRotator('rotator', imagesArray)
+
+    function initPhotoRotator(id, imagesArray) {
+        var rotator = document.getElementById(id);
+        for (var i = 0; i < imagesArray.length; i++) {
+            var element = document.createElement("img"),
+                    list = document.createElement("li");
+
+            element.setAttribute("src", imagesArray[i].path);
+            element.setAttribute("id", 'image_' + i);
+            console.log(i);
+            if (i !== 0) {
+                element.setAttribute("class", 'slider_img');
+            }
+
+            element.setAttribute("data-attr", i);
+            list.appendChild(element);
+            rotator.appendChild(list);
+        }
+    }
+</script>
+</body>
+</html>

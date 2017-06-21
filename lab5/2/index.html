@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>zavd 2</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td id="result"></td>
+
+    </tr>
+    <tr>
+        <td>
+            <button id="next" onclick="zavd()">Насиупне завадання</button>
+        </td>
+    </tr>
+    <tr>
+        <td id="question"></td>
+        <td><input type="number" id="answer"></td>
+        <td>
+            <button onclick="checkAnswer()">Перевірити</button>
+        </td>
+    </tr>
+    <tr>
+        <td id="check"></td>
+    </tr>
+</table>
+<script>
+    var result = document.getElementById('result'),
+            question = document.getElementById('question'),
+            answer = document.getElementById('answer'),
+            check = document.getElementById('check'),
+            rightAnswer, countAllAnswer = countRightAnswer =0;
+    result.innerHTML = 'Загальний рахунок 0% (0 з 10 правильних відповідей)';
+    zavd();
+    function checkAnswer() {
+        countAllAnswer++;
+
+            if( rightAnswer === +answer.value){
+                check.innerHTML = 'Вірна відповідь';
+                countRightAnswer++
+            }
+            else{
+                check.innerHTML = 'Помилка!!! Правильна відповідь ' + rightAnswer;
+            }
+
+            zavd();
+        if(countAllAnswer == 10){ {
+            result.innerHTML = 'Тестування завершено';
+            check.innerHTML ='Загальний рахунок: ' +(countRightAnswer/10)*100+ '%';
+        }
+        else
+            result.innerHTML = 'Загальний рахунок: ' +(countRightAnswer/10)*100+ '% ('+countRightAnswer+ ' з 10 правильних відповідей)';
+        answer.value = '';
+    }
+    function zavd() {
+        var firstNumber = Math.floor(Math.random() * (9 - 1) + 1),
+                secondNumber = Math.floor(Math.random() * (9 - 1) + 1);
+        question.innerHTML = firstNumber + ' x ' + secondNumber;
+        rightAnswer = firstNumber * secondNumber;
+    }
+</script>
+</body>
+</html>

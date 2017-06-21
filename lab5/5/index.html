@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<div id="captcha">
+
+</div>
+<input type="text" id="value">
+<button onclick="check()">Check</button>
+<p id="answer"></p>
+<script>
+    var question, current_blok = 0, all;
+
+    document.body.addEventListener('keydown', listener, false);
+
+    function listener(e) {
+        var currblock = document.getElementById('block_'+current_blok)
+        currblock.style.border = 'none';
+        if (e.key == 'ArrowRight') {
+            if (current_blok == all - 1) {
+                current_blok = -1;
+
+            }
+            current_blok++;
+        }
+        if (e.key == 'ArrowLeft') {
+            if (current_blok == 0 ) {
+                current_blok = all;
+            }
+            current_blok--;
+        }
+        currblock = document.getElementById('block_'+current_blok);
+        currblock.style.border = '4px solid green';
+        console.log(e);
+        if(e.key == 'ArrowUp'){
+            for(var i =0; i< all;i++){
+                var captcha = document.getElementById('captcha');
+                var el = document.getElementById('block_'+i);
+                captcha.removeChild(el);
+            }
+            if( question[current_blok] == 9){
+                question[current_blok] = 0;
+            }
+            else{
+                question[current_blok]++;
+            }
+            current_blok=0;
+            captch(all, false);
+        }
+        if(e.key == 'ArrowDown'){
+            for(var i =0; i< all;i++){
+                var captcha = document.getElementById('captcha');
+                var el = document.getElementById('block_'+i);
+                captcha.removeChild(el);
+            }
+            if( question[current_blok] == 0){
+                question[current_blok] = 9;
+            }
+            else{
+                question[current_blok]--;
+            }
+            current_blok=0;
+            captch(all, false);
+        }
+    }
+    function qeRun(count) {
+        question = [];
+        for (var i = 0; i < count; i++) {
+            question.push(Math.floor(Math.random() * (9 - 0) + 0))
+        }
+    }
+
+    function captch(count, random) {
+        if(random){
+            qeRun(count);
+        }
+        var container = document.getElementById('captcha');
+        all = count;
+        for (var i = 0; i < count; i++) {
+            var div = document.createElement('div');
+            div.setAttribute('id', 'block_' + i);
+            if(i==0){
+                div.style.border = '4px solid green';
+                div.setAttribute('class', 'block_border');
+            }
+            container.appendChild(div);
+        }
+
+        for (var i = 0; i < count; i++) {
+            for (var j = 0; j < 3; j++)
+                for (var h = 0; h < 5; h++) {
+                    var el = document.getElementById('block_' + i);
+                    var sp = document.createElement('span');
+                    sp.setAttribute('class', 'span_' + j + h);
+                    sp.setAttribute('data-attr', '' + i);
+                    el.appendChild(sp);
+                }
+        }
+        var obj = [{'00': true,'01': true,'02': true,'10': true,'13': true,'21': true, '24': true,'23': true,'22': true,
+            '03':true,'11': true,'14':true},
+            {'04': true, '02': true, '10': true, '13': true, '21': true, '24': true},
+            {'00':true, '01':true, '02': true, '10': true, '12': true, '14': true, '22': true, '23': true, '24': true},
+            {'00': true, '01': true, '02': true, '10': true, '12':true , '21': true, '24': true, '23': true, '22': true},
+            {'00': true, '03': true, '11': true, '12': true, '13': true, '02': true, '10': true, '21': true, '24': true},
+            {'00': true, '01': true, '02':true,  '03': true, '11': true, '12': true, '13': true,  '21': true, '24': true, '23': true, '22': true},
+            {'00': true, '01': true, '02':true,  '03': true, '11': true, '12': true, '13': true,  '21': true, '24': true, '23': true, '22': true,
+            '14': true},
+            {'00': true, '01': true, '02':true,'10': true, '13': true, '21': true, '24': true},
+            {'00': true, '01': true, '02':true,  '03': true, '11': true, '12': true, '13': true,  '21': true, '24': true, '23': true, '22': true,
+                '14': true, '10': true},
+            {'00': true, '01': true, '02':true,  '03': true, '11': true, '12': true, '13': true,  '21': true, '24': true, '23': true, '22': true, '10': true},
+        ]
+
+        for (var i = 0; i < question.length; i++) {
+            for (var j = 0; j < 3; j++)
+                for (var h = 0; h < 5; h++) {
+                    if (obj[question[i]]['' + j+h]) {
+                              var el = document.getElementsByClassName('span_' + j + h);
+                        for (var t = 0; t < el.length; t++) {
+                            if (el[t].getAttribute('data-attr') == i) {
+                                el[t].setAttribute('class', 'span_kap');
+                            }
+                        }
+                    }
+                }
+        }
+
+    }
+    captch(3, true);
+    function check(){
+        var input = document.getElementById('value').value,
+                str ='';
+        for(var i =0; i< question.length; i++){
+            str+=question[i];
+        }
+        var answer = document.getElementById('answer');
+        if(input == str)
+             answer.innerHTML ="Вірно"
+      else {
+            answer.innerHTML ="Не вірно"
+        }
+    }
+</script>
+</body>
+</html>

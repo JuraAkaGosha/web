@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>zavd 1</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>температура за Фаренгейтом</td>
+        <td>
+            <input type="number" id="far">
+        </td>
+    </tr>
+    <tr>
+        <td>температура за Цельсієм</td>
+        <td><input type="number" id="cel"></td>
+    </tr>
+</table>
+<script>
+    var celsField = document.getElementById('cel');
+    var farField = document.getElementById('far');
+    celsField.addEventListener('keyup', Change, false);
+    farField.addEventListener('keyup', Change, false);
+
+    function Change(e) {
+        e.target.id == 'far'? celsField.value=5/9 * (farField.value-32):  farField.value=(9*celsField.value+160)/5;
+    }
+</script>
+</body>
+</html>

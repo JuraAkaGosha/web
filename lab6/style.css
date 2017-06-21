@@ -1,0 +1,11 @@
+.saper_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.block_saper {
+    width: 50px;
+    border: 1px solid white;
+    height: 50px;
+    background: red;
+}

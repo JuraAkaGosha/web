@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>zavd 3</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td id="result"></td>
+    </tr>
+    <tr>
+        <td>
+            <button id="next" onclick="zavd()">Насиупне завадання</button>
+        </td>
+    </tr>
+    <tr>
+        <td id="question"></td>
+    </tr>
+    <tr>
+        <td id="variant">
+        </td>
+    </tr>
+    <tr>
+        <td id="check"></td>
+    </tr>
+</table>
+<script>
+    var question = document.getElementById('question'),
+            variant = document.getElementById('variant'),
+            rightAnswer, countAllAnswer = countRightAnswer = 0,
+            result = document.getElementById('result'),
+            check = document.getElementById('check')
+    zavd();
+    result.innerHTML = 'Загальний рахунок 0% (0 з 10 правильних відповідей)';
+
+    function checkAnswer(answer) {
+        countAllAnswer++;
+        if (rightAnswer === +answer) {
+            check.innerHTML = 'Вірна відповідь';
+            countRightAnswer++
+        }
+        else {
+            check.innerHTML = 'Помилка!!! Правильна відповідь ' + rightAnswer;
+        }
+        if (countAllAnswer == 10) {
+            result.innerHTML = 'Тестування завершено';
+            check.innerHTML = 'Загальний рахунок: ' + (countRightAnswer / 10) * 100 + '%';
+        }
+        else
+            result.innerHTML = 'Загальний рахунок: ' + (countRightAnswer / 10) * 100 + '% (' + countRightAnswer + ' з 10 правильних відповідей)';
+        zavd();
+
+
+    }
+    function zavd() {
+        var firstNumber = Math.floor(Math.random() * (9 - 1) + 1),
+                secondNumber = Math.floor(Math.random() * (9 - 1) + 1),
+                rightRadio = Math.floor(Math.random() * (4 - 1) + 1);
+        document.getElementById('question').innerHTML = firstNumber + ' x ' + secondNumber;
+        variant.innerHTML = '';
+
+        rightAnswer = firstNumber * secondNumber;
+
+        for (var i = 1; i <= 4; i++) {
+            if (i == rightRadio)
+                variant.innerHTML += getString(rightAnswer);
+            else {
+                firstNumber = Math.floor(Math.random() * (100 - 1) + 1);
+                variant.innerHTML += getString(firstNumber);
+            }
+        }
+    }
+
+    function getString(val) {
+        return '<p><label>' + val + '<input onclick="checkAnswer(' + val + ')" type="radio" name="answer" value=' + val + '></label></p>';
+    }
+</script>
+</body>
+</html>
